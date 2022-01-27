@@ -2,6 +2,7 @@ const express = require("express")
 const app = express()
 const port = process.env.PORT || 3000
 const cookieParser = require("cookie-parser")
+const session = require("express-session")
 const uuid = require("uuid")
 
 app.use(express.json()); // support json encoded bodies
@@ -10,22 +11,45 @@ app.use(express.urlencoded({ extended: true })); // support encoded bodies for f
 
 app.use(cookieParser())
 
+app.set('trust proxy', 1)
+app.use(session({
+    resave : true,
+    saveUninitialized : false,
+    secret : "turlututuchapeaupointu",
+    cookie : { maxAge : 1000 * 60 * 60 * 24},
+}))
 
 app.use(express.static('content')); // define static content for css, pictures, scripts...
 app.engine('html', require('ejs').renderFile); // view engine for nodeJS 
 
+//partie résolution du problème de csrf
+//middleware pour générer le token 
+var regenerateToken = (req, res, next) => {
+    req.session.uuid = uuid.v4()
+    next()
+}
+
+var verifyToken = (req, res, next) => {
+    if(req.session.uuid == req.query.token)
+        next()
+    else
+        res.redirect("/")
+}
+
+//fin
 
 var datas = require("./data/fake.json")
 
 
 app.get('/', (req, res, next) => { 
-   res.render("index.ejs", { datas : datas})
+    console.log(req.session.uuid)
+   res.render("index.ejs", { datas : datas, token : req.session.uuid})
 })
 
 //pour le fake
 var userIdConnected = ""
 
-app.get("/login/:id", (req, res, next) => {
+app.get("/login/:id", regenerateToken, (req, res, next) => {
     userIdConnected = uuid.v4()
 
     res.cookie("UserUuid", userIdConnected)
@@ -36,20 +60,22 @@ app.get("/login/:id", (req, res, next) => {
 //-------------------------------
 
 
-app.get("/deleteMessage/:id", (req, res, next) => {
+app.get("/deleteMessage/:id", /*verifyToken,*/ (req, res, next) => {
 
     if(req.cookies.UserUuid == userIdConnected)
     {
         datas = datas.filter((item) => {
             
-            if(item.id != req.params.id)
+            if(item.id != req.params.id){
                 return item
-            else
+            }
+            else //so equals
             {
                 if(item.userId != req.cookies.UserId)
                     return item
             }
         })
+        console.log("message supprimé")
         res.redirect("/")
     }
     else{
@@ -58,6 +84,8 @@ app.get("/deleteMessage/:id", (req, res, next) => {
         res.redirect("/")
     }
 })
+
+
 
 /*
 lorsque tout est prèt, engendrer dans le json, un mise a jour d'un message pour essayer de faire delte un post
@@ -79,6 +107,8 @@ lorsque tout est prèt, engendrer dans le json, un mise a jour d'un message pour
     et que sur la page il y a une image portant le lien vers la suppression de son propre poste, 
     il sera tout bonnement supprimer car user 2 est bien connecté
 */
+
+
 
 
 app.use((err, req, res, next) => {

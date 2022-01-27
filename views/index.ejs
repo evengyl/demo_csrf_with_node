@@ -12,9 +12,12 @@
     <a href="/login/2">Logged le user 2</a>
     <br>
     <% datas.forEach((item) => { %>
-        <p>id : <%= item.id %> User : <%= item.user %></p>
+        <p>id : <%= item.id %> User : <%= item.user %>&nbsp;&nbsp;&nbsp;UserID : <%- item.userId %></p>
         <p>&nbsp;&nbsp;&nbsp;Message : <%- item.message %></p>
-        <a href="/deleteMessage/<%= item.id %>">Supprimer le message</a>
+        <% if(token) {%>
+            <a href="/deleteMessage/<%= item.id %>?token=<%= token %>">Supprimer le message</a>
+            <!-- correction  <a href="/deleteMessage/<%= item.id %>">Supprimer le message</a> -->
+        <% } %>
     <% }) %>
     
 </body>
