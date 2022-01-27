@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Faille Csrf (Cross-Site Request Forgery)</h1>
+    <a href="/login/1">Logged le user 1</a>
+    <a href="/login/2">Logged le user 2</a>
+    <br>
+    <% datas.forEach((item) => { %>
+        <p>id : <%= item.id %> User : <%= item.user %></p>
+        <p>&nbsp;&nbsp;&nbsp;Message : <%- item.message %></p>
+        <a href="/deleteMessage/<%= item.id %>">Supprimer le message</a>
+    <% }) %>
+    
+</body>
+</html>

@@ -1,0 +1,32 @@
+[
+    {
+        "id" : 1,
+        "user" : "Loic",
+        "userId" : 1,
+        "message" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam doloribus esse cupiditate quia odit, eius eligendi provident nemo saepe quae."
+    },
+    {
+        "id" : 2,
+        "user" : "Loic",
+        "userId" : 1,
+        "message" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam doloribus esse cupiditate quia odit, eius eligendi provident nemo saepe quae."
+    },
+    {
+        "id" : 3,
+        "user" : "Steve",
+        "userId" : 2,
+        "message" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam doloribus esse cupiditate quia odit, eius eligendi provident nemo saepe quae."
+    },
+    {
+        "id" : 4,
+        "user" : "Steve",
+        "userId" : 2,
+        "message" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam doloribus esse cupiditate quia odit, eius eligendi provident nemo saepe quae."
+    },
+    {
+        "id" : 5,
+        "user" : "Aurelien",
+        "userId" : 3,
+        "message" : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam doloribus esse cupiditate quia odit, eius eligendi provident nemo saepe quae."
+    }
+]
